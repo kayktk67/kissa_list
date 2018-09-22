@@ -55,8 +55,8 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
             formatter.dateFormat = "HH:mm:ss"
             self.time[indexPath.row] = formatter.string(from: hogedate as Date)
         }
-        let defaultPlace = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b4amount")
-        defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b4amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b3amount")
+        defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b3amount[indexPath.row] = (snap.value! as AnyObject).description}
         let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b4amount")
         defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.b4amount[indexPath.row] = (snap.value! as AnyObject).description}
         
@@ -98,7 +98,6 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
                 let dict = snapshot.value as! String
                 array.append(dict)
             }
-            print (array)
             DispatchQueue.main.async {
                 self.hogearray = array
             }

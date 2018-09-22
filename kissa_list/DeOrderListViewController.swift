@@ -102,7 +102,6 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
                 let dict = snapshot.value as! String
                 array.append(dict)
             }
-            print (array)
             DispatchQueue.main.async {
                 self.hogearray = array
             }

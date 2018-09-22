@@ -15,10 +15,9 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     var DBRef:DatabaseReference!
     var hogearray : [String] = []
     var array1 : [String] = []
-    var b1amount = Array(repeating: "0", count: 20)
-    var b2amount = Array(repeating: "0", count: 20)
-    var b3amount = Array(repeating: "0", count: 20)
-    var b4amount = Array(repeating: "0", count: 20)
+    var s1amount = Array(repeating: "0", count: 20)
+    var s2amount = Array(repeating: "0", count: 20)
+    var s3amount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
@@ -34,12 +33,13 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let tablelabel = cell.contentView.viewWithTag(1) as! UILabel
-        let b1label = cell.contentView.viewWithTag(2) as! UILabel
-        let b2label = cell.contentView.viewWithTag(3) as! UILabel
+        let s1label = cell.contentView.viewWithTag(2) as! UILabel
+        let s2label = cell.contentView.viewWithTag(3) as! UILabel
+        let s3label = cell.contentView.viewWithTag(4) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
-        let defaultPlacex = DBRef.child("table/bstatus").child(hogearray[indexPath.row])
+        let defaultPlacex = DBRef.child("table/sstatus").child(hogearray[indexPath.row])
         defaultPlacex.observe(.value) { (snap: DataSnapshot) in status1 = (snap.value! as AnyObject).description
             intstatus1 = Int(status1!)
             if intstatus1! == 1{
@@ -57,15 +57,19 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
             formatter.dateFormat = "HH:mm:ss"
             self.time[indexPath.row] = formatter.string(from: hogedate as Date)
         }
-        let defaultPlace = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b1amount")
-        defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b1amount[indexPath.row] = (snap.value! as AnyObject).description}
-        let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b2amount")
-        defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.b2amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("s1amount")
+        defaultPlace.observe(.value) { (snap: DataSnapshot) in self.s1amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("s2amount")
+        defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.s2amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace2 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("s3amount")
+        defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.s3amount[indexPath.row] = (snap.value! as AnyObject).description}
+        
         
         
         tablelabel.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row]))"
-        b1label.text =  "\(String(describing: self.b1amount[indexPath.row]))"
-        b2label.text =  "\(String(describing: self.b2amount[indexPath.row]))"
+        s1label.text =  "\(String(describing: self.s1amount[indexPath.row]))"
+        s2label.text =  "\(String(describing: self.s2amount[indexPath.row]))"
+        s3label.text =  "\(String(describing: self.s3amount[indexPath.row]))"
         
         return cell
     }
@@ -74,7 +78,7 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         self.nowrow = hogearray[indexPath.row]
         let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
-            self.DBRef.child("table/bstatus").child(self.nowrow!).setValue(1)
+            self.DBRef.child("table/sstatus").child(self.nowrow!).setValue(1)
             self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
         }
         
@@ -100,7 +104,6 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
                 let dict = snapshot.value as! String
                 array.append(dict)
             }
-            print (array)
             DispatchQueue.main.async {
                 self.hogearray = array
             }
