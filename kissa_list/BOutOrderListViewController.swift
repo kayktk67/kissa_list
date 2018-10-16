@@ -38,7 +38,7 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
         let defaultPlacex = DBRef.child("table/tbstatus").child(hogearray[indexPath.row])
         defaultPlacex.observe(.value) { (snap: DataSnapshot) in status1 = (snap.value! as AnyObject).description
             intstatus1 = Int(status1!)
-            if intstatus1! == 1{
+            if intstatus1! == 1||intstatus1! == 2{
                 cell.contentView.backgroundColor = UIColor.cyan
             }else{
                 cell.contentView.backgroundColor = UIColor.clear
@@ -110,6 +110,7 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
             repeats: true
         )
     }
+    
     @objc func newArray(_ sender: Timer) {
         self.tableView.reloadData()
     }

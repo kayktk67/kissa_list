@@ -9,10 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
     @IBAction func ToBOrderList(_ sender: Any) {
         performSegue(withIdentifier: "toborderlist", sender: nil)
-        
     }
     @IBAction func ToBOutOrderList(_ sender: Any) {
         performSegue(withIdentifier: "toboutorderlist", sender: nil)
@@ -22,6 +20,9 @@ class ViewController: UIViewController {
     }
     @IBAction func ToDOrderList(_ sender: Any) {
         performSegue(withIdentifier: "todorderlist", sender: nil)
+    }
+    @IBAction func ToDXOrderList(_ sender: Any) {
+        performSegue(withIdentifier: "todxorderlist", sender: nil)
     }
     @IBAction func ToDeOrderList(_ sender: Any) {
         performSegue(withIdentifier: "todeorderlist", sender: nil)

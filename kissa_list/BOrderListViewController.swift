@@ -16,7 +16,6 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     var hogearray : [String] = []
     var array1 : [String] = []
     var b1amount = Array(repeating: "0", count: 20)
-    var b2amount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
@@ -32,14 +31,13 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let tablelabel = cell.contentView.viewWithTag(1) as! UILabel
         let b1label = cell.contentView.viewWithTag(2) as! UILabel
-        let b2label = cell.contentView.viewWithTag(3) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
         let defaultPlacex = DBRef.child("table/bstatus").child(hogearray[indexPath.row])
         defaultPlacex.observe(.value) { (snap: DataSnapshot) in status1 = (snap.value! as AnyObject).description
             intstatus1 = Int(status1!)
-            if intstatus1! == 1{
+            if intstatus1! == 1||intstatus1! == 2{
                 cell.contentView.backgroundColor = UIColor.cyan
             }else{
                 cell.contentView.backgroundColor = UIColor.clear
@@ -56,13 +54,10 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         let defaultPlace = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b1amount")
         defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b1amount[indexPath.row] = (snap.value! as AnyObject).description}
-        let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b2amount")
-        defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.b2amount[indexPath.row] = (snap.value! as AnyObject).description}
         
         
         tablelabel.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row]))"
         b1label.text =  "\(String(describing: self.b1amount[indexPath.row]))"
-        b2label.text =  "\(String(describing: self.b2amount[indexPath.row]))"
         
         return cell
     }

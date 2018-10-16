@@ -16,13 +16,27 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="ynv-Oz-U7o">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ynv-Oz-U7o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5c3-iN-jFu"/>
+                            <constraint firstItem="ynv-Oz-U7o" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Mqv-Ln-SAq"/>
+                            <constraint firstItem="ynv-Oz-U7o" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Y0R-0Z-15U"/>
+                            <constraint firstItem="ynv-Oz-U7o" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yxe-tH-DuS"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image" width="1280" height="2272"/>
+    </resources>
 </document>

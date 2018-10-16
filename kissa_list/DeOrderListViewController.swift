@@ -41,7 +41,7 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
         let defaultPlacex = DBRef.child("table/destatus").child(hogearray[indexPath.row])
         defaultPlacex.observe(.value) { (snap: DataSnapshot) in status1 = (snap.value! as AnyObject).description
             intstatus1 = Int(status1!)
-            if intstatus1! == 1{
+            if intstatus1! == 1||intstatus1! == 2{
                 cell.contentView.backgroundColor = UIColor.cyan
             }else{
                 cell.contentView.backgroundColor = UIColor.clear
@@ -116,7 +116,6 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
     }
     @objc func newArray(_ sender: Timer) {
         self.tableView.reloadData()
-        print (self.hogearray)
     }
     
     
