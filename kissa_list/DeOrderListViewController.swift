@@ -100,22 +100,15 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
             for item in (snapshot.children) {
                 let snapshot = item as! DataSnapshot
                 let dict = snapshot.value as! String
-                array.append(dict)
+                if Int(dict)!<100{
+                    array.append(dict)
+                }
             }
             DispatchQueue.main.async {
                 self.hogearray = array
+                self.tableView.reloadData()
             }
         })
-        Timer.scheduledTimer(
-            timeInterval: 0.5,
-            target: self,
-            selector: #selector(self.newArray(_:)),
-            userInfo: nil,
-            repeats: true
-        )
-    }
-    @objc func newArray(_ sender: Timer) {
-        self.tableView.reloadData()
     }
     
     

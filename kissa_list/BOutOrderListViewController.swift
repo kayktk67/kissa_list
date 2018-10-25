@@ -17,6 +17,7 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
     var array1 : [String] = []
     var b3amount = Array(repeating: "0", count: 20)
     var b4amount = Array(repeating: "0", count: 20)
+    var bamount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
@@ -32,6 +33,7 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
         let tablelabel = cell.contentView.viewWithTag(1) as! UILabel
         let b3label = cell.contentView.viewWithTag(2) as! UILabel
         let b4label = cell.contentView.viewWithTag(3) as! UILabel
+        let blabel = cell.contentView.viewWithTag(4) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
@@ -45,8 +47,6 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
             }
         }
         
-        
-        
         let defaultPlace0 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("time")
         defaultPlace0.observe(.value) { (snap: DataSnapshot) in self.hogetime = (snap.value! as AnyObject).description
             self.dateUnix = TimeInterval(self.hogetime!)!
@@ -59,11 +59,13 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
         defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b3amount[indexPath.row] = (snap.value! as AnyObject).description}
         let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b4amount")
         defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.b4amount[indexPath.row] = (snap.value! as AnyObject).description}
-        
+        let defaultPlace2 = self.DBRef.child("table/setamount").child(self.hogearray[indexPath.row]).child("sset")
+        defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.bamount[indexPath.row] = (snap.value! as AnyObject).description}
         
         tablelabel.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row]))"
         b3label.text =  "\(String(describing: self.b3amount[indexPath.row]))"
         b4label.text =  "\(String(describing: self.b4amount[indexPath.row]))"
+        blabel.text =  "\(String(describing: self.bamount[indexPath.row]))"
         
         return cell
     }
@@ -100,21 +102,10 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
             }
             DispatchQueue.main.async {
                 self.hogearray = array
+                self.tableView.reloadData()
             }
         })
-        Timer.scheduledTimer(
-            timeInterval: 0.5,
-            target: self,
-            selector: #selector(self.newArray(_:)),
-            userInfo: nil,
-            repeats: true
-        )
     }
-    
-    @objc func newArray(_ sender: Timer) {
-        self.tableView.reloadData()
-    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

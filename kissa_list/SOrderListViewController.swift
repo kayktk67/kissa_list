@@ -18,7 +18,6 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     var s1amount = Array(repeating: "0", count: 20)
     var s2amount = Array(repeating: "0", count: 20)
     var s3amount = Array(repeating: "0", count: 20)
-    var bamount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
@@ -37,7 +36,6 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         let s1label = cell.contentView.viewWithTag(2) as! UILabel
         let s2label = cell.contentView.viewWithTag(3) as! UILabel
         let s3label = cell.contentView.viewWithTag(4) as! UILabel
-        let blabel = cell.contentView.viewWithTag(5) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
@@ -65,8 +63,6 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.s2amount[indexPath.row] = (snap.value! as AnyObject).description}
         let defaultPlace2 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("s3amount")
         defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.s3amount[indexPath.row] = (snap.value! as AnyObject).description}
-        let defaultPlace3 = self.DBRef.child("table/setamount").child(self.hogearray[indexPath.row]).child("sset")
-        defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.bamount[indexPath.row] = (snap.value! as AnyObject).description}
         
         
         
@@ -74,7 +70,6 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         s1label.text =  "\(String(describing: self.s1amount[indexPath.row]))"
         s2label.text =  "\(String(describing: self.s2amount[indexPath.row]))"
         s3label.text =  "\(String(describing: self.s3amount[indexPath.row]))"
-        blabel.text =  "\(String(describing: self.bamount[indexPath.row]))"
         
         return cell
     }
@@ -111,18 +106,9 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
             }
             DispatchQueue.main.async {
                 self.hogearray = array
+                self.tableView.reloadData()
             }
         })
-        Timer.scheduledTimer(
-            timeInterval: 0.5,
-            target: self,
-            selector: #selector(self.newArray(_:)),
-            userInfo: nil,
-            repeats: true
-        )
-    }
-    @objc func newArray(_ sender: Timer) {
-        self.tableView.reloadData()
     }
     
     

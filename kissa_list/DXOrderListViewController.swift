@@ -109,20 +109,10 @@ class DXOrderListViewController: UIViewController, UITableViewDelegate, UITableV
             }
             DispatchQueue.main.async {
                 self.hogearray = array
+                self.tableView.reloadData()
             }
         })
-        Timer.scheduledTimer(
-            timeInterval: 0.5,
-            target: self,
-            selector: #selector(self.newArray(_:)),
-            userInfo: nil,
-            repeats: true
-        )
     }
-    @objc func newArray(_ sender: Timer) {
-        self.tableView.reloadData()
-    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
