@@ -14,14 +14,13 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
     // インスタンス変数
     var DBRef:DatabaseReference!
     var hogearray : [String] = []
-    var array1 : [String] = []
     var b3amount = Array(repeating: "0", count: 20)
     var b4amount = Array(repeating: "0", count: 20)
-    var bamount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
     var nowrow : String?
+    var status : String?
     
     @IBOutlet weak var tableView: UITableView!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,7 +32,6 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
         let tablelabel = cell.contentView.viewWithTag(1) as! UILabel
         let b3label = cell.contentView.viewWithTag(2) as! UILabel
         let b4label = cell.contentView.viewWithTag(3) as! UILabel
-        let blabel = cell.contentView.viewWithTag(4) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
@@ -59,13 +57,10 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
         defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b3amount[indexPath.row] = (snap.value! as AnyObject).description}
         let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b4amount")
         defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.b4amount[indexPath.row] = (snap.value! as AnyObject).description}
-        let defaultPlace2 = self.DBRef.child("table/setamount").child(self.hogearray[indexPath.row]).child("sset")
-        defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.bamount[indexPath.row] = (snap.value! as AnyObject).description}
         
         tablelabel.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row]))"
         b3label.text =  "\(String(describing: self.b3amount[indexPath.row]))"
         b4label.text =  "\(String(describing: self.b4amount[indexPath.row]))"
-        blabel.text =  "\(String(describing: self.bamount[indexPath.row]))"
         
         return cell
     }
@@ -74,8 +69,13 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
         self.nowrow = hogearray[indexPath.row]
         let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
-            self.DBRef.child("table/tbstatus").child(self.nowrow!).setValue(1)
-            self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
+            let defaultPlace = self.DBRef.child("table/status").child(self.nowrow!)
+            defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.status = (snapshot.value! as AnyObject).description
+                self.DBRef.child("table/tbstatus").child(self.nowrow!).setValue(1)
+                if self.status == "0" || self.status == "1"{
+                    self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
+                }
+            })
         }
         
         let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
@@ -98,13 +98,25 @@ class BOutOrderListViewController: UIViewController, UITableViewDelegate, UITabl
             for item in (snapshot.children) {
                 let snapshot = item as! DataSnapshot
                 let dict = snapshot.value as! String
-                array.append(dict)
+                if Int(dict)!>100{
+                    array.append(dict)
+                }
             }
             DispatchQueue.main.async {
                 self.hogearray = array
-                self.tableView.reloadData()
             }
         })
+        Timer.scheduledTimer(
+            timeInterval: 0.5,
+            target: self,
+            selector: #selector(self.newArray(_:)),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    @objc func newArray(_ sender: Timer) {
+        self.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {

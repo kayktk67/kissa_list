@@ -1,21 +1,20 @@
 //
-//  BOrderListViewController.swift
+//  BOutSubViewController.swift
 //  kissa_list
 //
-//  Created by Kei Kawamura on 2018/09/19.
-//  Copyright © 2018年 Kei Kawamura. All rights reserved.
+//  Created by Kei Kawamura on 2018/11/03.
+//  Copyright © 2018 Kei Kawamura. All rights reserved.
 //
 
 import Foundation
 import UIKit
 import Firebase
 
-class BOrderListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class BOutSubOrderListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     // インスタンス変数
     var DBRef:DatabaseReference!
     var hogearray : [String] = []
-    var array1 : [String] = []
-    var b1amount = Array(repeating: "0", count: 20)
+    var bamount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
@@ -23,7 +22,6 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     var status : String?
     
     @IBOutlet weak var tableView: UITableView!
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.hogearray.count
     }
@@ -31,11 +29,11 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let tablelabel = cell.contentView.viewWithTag(1) as! UILabel
-        let b1label = cell.contentView.viewWithTag(2) as! UILabel
+        let blabel = cell.contentView.viewWithTag(4) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
-        let defaultPlacex = DBRef.child("table/bstatus").child(hogearray[indexPath.row])
+        let defaultPlacex = DBRef.child("table/tbstatus").child(hogearray[indexPath.row])
         defaultPlacex.observe(.value) { (snap: DataSnapshot) in status1 = (snap.value! as AnyObject).description
             intstatus1 = Int(status1!)
             if intstatus1! == 1||intstatus1! == 2{
@@ -53,12 +51,11 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
             formatter.dateFormat = "HH:mm:ss"
             self.time[indexPath.row] = formatter.string(from: hogedate as Date)
         }
-        let defaultPlace = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("b1amount")
-        defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b1amount[indexPath.row] = (snap.value! as AnyObject).description}
-        
+        let defaultPlace2 = self.DBRef.child("table/setamount").child(self.hogearray[indexPath.row]).child("sset")
+        defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.bamount[indexPath.row] = (snap.value! as AnyObject).description}
         
         tablelabel.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row]))"
-        b1label.text =  "\(String(describing: self.b1amount[indexPath.row]))"
+        blabel.text =  "\(String(describing: self.bamount[indexPath.row]))"
         
         return cell
     }
@@ -69,13 +66,13 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
             let defaultPlace = self.DBRef.child("table/status").child(self.nowrow!)
             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.status = (snapshot.value! as AnyObject).description
-                self.DBRef.child("table/bstatus").child(self.nowrow!).setValue(1)
+                self.DBRef.child("table/tbstatus").child(self.nowrow!).setValue(1)
                 if self.status == "0" || self.status == "1"{
                     self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
                 }
             })
         }
-    
+        
         let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
         
         alertController.addAction(okAction)
@@ -116,7 +113,6 @@ class BOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     @objc func newArray(_ sender: Timer) {
         self.tableView.reloadData()
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -15,8 +15,14 @@ class ViewController: UIViewController {
     @IBAction func ToBOutOrderList(_ sender: Any) {
         performSegue(withIdentifier: "toboutorderlist", sender: nil)
     }
+    @IBAction func ToBOutSubOrderList(_ sender: Any) {
+        performSegue(withIdentifier: "toboutsuborderlist", sender: nil)
+    }
     @IBAction func ToSOrderList(_ sender: Any) {
         performSegue(withIdentifier: "tosorderlist", sender: nil)
+    }
+    @IBAction func ToSOutOrderList(_ sender: Any) {
+        performSegue(withIdentifier: "tosoutorderlist", sender: nil)
     }
     @IBAction func ToDOrderList(_ sender: Any) {
         performSegue(withIdentifier: "todorderlist", sender: nil)

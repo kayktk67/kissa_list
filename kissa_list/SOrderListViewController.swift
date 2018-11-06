@@ -22,6 +22,7 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
     var dateUnix: TimeInterval = 0
     var hogetime : String?
     var nowrow : String?
+    var status : String?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -78,8 +79,13 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
         self.nowrow = hogearray[indexPath.row]
         let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
-            self.DBRef.child("table/sstatus").child(self.nowrow!).setValue(1)
-            self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
+            let defaultPlace = self.DBRef.child("table/status").child(self.nowrow!)
+            defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.status = (snapshot.value! as AnyObject).description
+                self.DBRef.child("table/sstatus").child(self.nowrow!).setValue(1)
+                if self.status == "0" || self.status == "1"{
+                    self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
+                }
+            })
         }
         
         let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
@@ -102,13 +108,25 @@ class SOrderListViewController: UIViewController, UITableViewDelegate, UITableVi
             for item in (snapshot.children) {
                 let snapshot = item as! DataSnapshot
                 let dict = snapshot.value as! String
-                array.append(dict)
+                if Int(dict)!<100{
+                    array.append(dict)
+                }
             }
             DispatchQueue.main.async {
                 self.hogearray = array
-                self.tableView.reloadData()
             }
         })
+        Timer.scheduledTimer(
+            timeInterval: 0.5,
+            target: self,
+            selector: #selector(self.newArray(_:)),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    @objc func newArray(_ sender: Timer) {
+        self.tableView.reloadData()
     }
     
     

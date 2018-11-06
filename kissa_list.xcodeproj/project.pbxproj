@@ -20,6 +20,8 @@
 		AA1A121A215351BC00504AE2 /* DeOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1A1219215351BC00504AE2 /* DeOrderListViewController.swift */; };
 		AA2967FF217173170067634E /* DXOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2967FE217173170067634E /* DXOrderListViewController.swift */; };
 		AA755DC521800E9A003E482B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA755DC421800E9A003E482B /* GoogleService-Info.plist */; };
+		AAC44955218CDBF8006132CC /* SOutOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC44954218CDBF8006132CC /* SOutOrderListViewController.swift */; };
+		AAC44957218CDDB9006132CC /* BOutSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC44956218CDDB9006132CC /* BOutSubViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		AA1A1219215351BC00504AE2 /* DeOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeOrderListViewController.swift; sourceTree = "<group>"; };
 		AA2967FE217173170067634E /* DXOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DXOrderListViewController.swift; sourceTree = "<group>"; };
 		AA755DC421800E9A003E482B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AAC44954218CDBF8006132CC /* SOutOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOutOrderListViewController.swift; sourceTree = "<group>"; };
+		AAC44956218CDDB9006132CC /* BOutSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOutSubViewController.swift; sourceTree = "<group>"; };
 		F861CE1F3706F44A523F7B97 /* Pods-kissa_list.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kissa_list.debug.xcconfig"; path = "Pods/Target Support Files/Pods-kissa_list/Pods-kissa_list.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,7 +84,9 @@
 				AA1A11FF2151E85500504AE2 /* ViewController.swift */,
 				AA1A12112151EDAD00504AE2 /* BOrderListViewController.swift */,
 				AA1A1213215256CE00504AE2 /* BOutOrderListViewController.swift */,
+				AAC44956218CDDB9006132CC /* BOutSubViewController.swift */,
 				AA1A12152152682600504AE2 /* SOrderListViewController.swift */,
+				AAC44954218CDBF8006132CC /* SOutOrderListViewController.swift */,
 				AA1A12172153519C00504AE2 /* DOrderListViewController.swift */,
 				AA2967FE217173170067634E /* DXOrderListViewController.swift */,
 				AA1A1219215351BC00504AE2 /* DeOrderListViewController.swift */,
@@ -236,10 +242,12 @@
 				AA1A121A215351BC00504AE2 /* DeOrderListViewController.swift in Sources */,
 				AA1A12122151EDAD00504AE2 /* BOrderListViewController.swift in Sources */,
 				AA1A12002151E85500504AE2 /* ViewController.swift in Sources */,
+				AAC44955218CDBF8006132CC /* SOutOrderListViewController.swift in Sources */,
 				AA1A11FE2151E85500504AE2 /* AppDelegate.swift in Sources */,
 				AA2967FF217173170067634E /* DXOrderListViewController.swift in Sources */,
 				AA1A12162152682600504AE2 /* SOrderListViewController.swift in Sources */,
 				AA1A1214215256CE00504AE2 /* BOutOrderListViewController.swift in Sources */,
+				AAC44957218CDDB9006132CC /* BOutSubViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,18 +394,20 @@
 			baseConfigurationReference = F861CE1F3706F44A523F7B97 /* Pods-kissa_list.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DVL4Z5ZSHP;
+				DEVELOPMENT_TEAM = 63MASNSR4G;
 				INFOPLIST_FILE = kissa_list/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "kissa----.list....";
+				PRODUCT_BUNDLE_IDENTIFIER = "kissa----.list......................";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -406,18 +416,20 @@
 			baseConfigurationReference = 0B9AC1FF53855EFD24FF88C8 /* Pods-kissa_list.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DVL4Z5ZSHP;
+				DEVELOPMENT_TEAM = 63MASNSR4G;
 				INFOPLIST_FILE = kissa_list/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "kissa----.list....";
+				PRODUCT_BUNDLE_IDENTIFIER = "kissa----.list......................";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

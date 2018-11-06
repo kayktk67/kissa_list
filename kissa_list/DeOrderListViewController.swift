@@ -18,10 +18,12 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
     var de1amount = Array(repeating: "0", count: 20)
     var de2amount = Array(repeating: "0", count: 20)
     var de3amount = Array(repeating: "0", count: 20)
+    var de4amount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
     var nowrow : String?
+    var status : String?
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -35,6 +37,7 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
         let de1label = cell.contentView.viewWithTag(2) as! UILabel
         let de2label = cell.contentView.viewWithTag(3) as! UILabel
         let de3label = cell.contentView.viewWithTag(4) as! UILabel
+        let de4label = cell.contentView.viewWithTag(5) as! UILabel
         
         var status1 : String?
         var intstatus1 : Int?
@@ -62,12 +65,15 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
         defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.de2amount[indexPath.row] = (snap.value! as AnyObject).description}
         let defaultPlace2 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de3amount")
         defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.de3amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace3 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de4amount")
+        defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.de4amount[indexPath.row] = (snap.value! as AnyObject).description}
         
         
         tablelabel.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row]))"
         de1label.text =  "\(String(describing: self.de1amount[indexPath.row]))"
         de2label.text =  "\(String(describing: self.de2amount[indexPath.row]))"
         de3label.text =  "\(String(describing: self.de3amount[indexPath.row]))"
+        de4label.text =  "\(String(describing: self.de4amount[indexPath.row]))"
         
         return cell
     }
@@ -76,8 +82,13 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
         self.nowrow = hogearray[indexPath.row]
         let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
+            let defaultPlace = self.DBRef.child("table/status").child(self.nowrow!)
+            defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.status = (snapshot.value! as AnyObject).description
             self.DBRef.child("table/destatus").child(self.nowrow!).setValue(1)
-            self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
+                if self.status == "0" || self.status == "1"{
+                        self.DBRef.child("table/status").child(self.nowrow!).setValue(2)
+                }
+            })
         }
         
         let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
@@ -106,9 +117,19 @@ class DeOrderListViewController: UIViewController, UITableViewDelegate, UITableV
             }
             DispatchQueue.main.async {
                 self.hogearray = array
-                self.tableView.reloadData()
             }
         })
+        Timer.scheduledTimer(
+            timeInterval: 0.5,
+            target: self,
+            selector: #selector(self.newArray(_:)),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    @objc func newArray(_ sender: Timer) {
+        self.tableView.reloadData()
     }
     
     
